@@ -252,15 +252,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "install"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "constants",
- "helpers",
-]
-
-[[package]]
 name = "libc"
 version = "0.2.186"
 source = "registry+https://github.com/rust-lang/crates.io-index"

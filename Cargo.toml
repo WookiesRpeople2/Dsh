@@ -3,4 +3,4 @@ resolver = "3"
 members = [
     "core",
     "engine"
-, "errors", "commands", "helpers", "constants", "install"]
+, "errors", "commands", "helpers", "constants"]

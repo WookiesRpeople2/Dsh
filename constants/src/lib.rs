@@ -32,7 +32,6 @@ pub const COLORS: &[(&str, CtColor)] = &[
 ];
 
 pub const CONFIG_PATH: &str = ".config/dsh/config.toml";
-pub const INSTALL_BIN_DIR: &str = ".local/bin/dsh";
 pub const PROMPT_SECTION: &str = "Prompt";
 pub const PROMPT_SECTION_PROMPT_COLOR_KEY: &str = "prompt_color";
 pub const PROMPT_SECTION_PROMPT: &str = "prompt";
