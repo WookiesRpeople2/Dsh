@@ -1,5 +1,0 @@
-- [x] add Token ~ to lexer and parser
-- [x] add Token UPARROW to lexer and parser
-- [] fix history bug prompt showing twice
-- [] fix config bug, not reading from config
-- [] remove prompt reading from main, have it handled only by readline

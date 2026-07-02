@@ -1,9 +1,9 @@
 pub mod theme;
-use engine::ast::BuiltinCommand;
+use engine::{ast::BuiltinCommand, state::ShellState};
 
 use crate::theme::color;
 
-pub fn execute_builtin(command: BuiltinCommand) -> Result<(), String> {
+pub fn execute_builtin(command: BuiltinCommand, state: &mut ShellState) -> Result<(), String> {
     match command {
         BuiltinCommand::Cd { path } => {
             std::env::set_current_dir(path).map_err(|e| e.to_string())?
@@ -16,7 +16,7 @@ pub fn execute_builtin(command: BuiltinCommand) -> Result<(), String> {
         BuiltinCommand::Alias { name, command } => println!("alias {}={}", name, command),
 
         BuiltinCommand::Exit => std::process::exit(0),
-        BuiltinCommand::Theme => color(),
+        BuiltinCommand::Theme => color(state),
     }
 
     Ok(())

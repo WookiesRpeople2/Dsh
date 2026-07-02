@@ -1,12 +1,26 @@
 use std::collections::HashMap;
+use std::env;
+use std::ffi::OsString;
 use std::fs::{read_to_string, write};
+use std::path::PathBuf;
 
 use constants::CONFIG_PATH;
 
 pub type Config = HashMap<String, HashMap<String, String>>;
 
+pub fn home_dir() -> Option<OsString> {
+    env::var_os("HOME")
+}
+
+pub fn expand_path(path: &str) -> PathBuf {
+    if let Some(home) = home_dir().map(PathBuf::from) {
+        return home.join(path);
+    }
+    PathBuf::from(path)
+}
+
 pub fn read_config() -> Config {
-    let contents = read_to_string(CONFIG_PATH).unwrap_or_default();
+    let contents = read_to_string(config_path()).unwrap_or_default();
 
     let mut config: Config = HashMap::new();
     let mut current_section = String::new();
@@ -42,7 +56,7 @@ pub fn get_value<'a>(config: &'a Config, section: &str, key: &str) -> Option<&'a
 }
 
 pub fn write_config(section: String, key: String, value: String) {
-    let contents = read_to_string(CONFIG_PATH).unwrap_or_default();
+    let contents = read_to_string(config_path()).unwrap_or_default();
 
     let header = format!("[{section}]");
     let entry = format!("{key} = \"{value}\"");
@@ -106,5 +120,9 @@ pub fn write_config(section: String, key: String, value: String) {
         out.push('\n');
     }
 
-    let _ = write(CONFIG_PATH, out);
+    let _ = write(config_path(), out);
+}
+
+fn config_path() -> PathBuf {
+    expand_path(CONFIG_PATH)
 }
