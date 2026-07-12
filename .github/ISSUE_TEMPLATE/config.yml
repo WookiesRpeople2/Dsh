@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Issues on GitHub
+    url: https://github.com/WookiesRpeople2/Dsh/issues
+    about: Create and edit issues here — they are mirrored to issues/<id>/issue.md on merge to main
+  - name: Mirrored issues folder
+    url: https://github.com/WookiesRpeople2/Dsh/tree/main/issues
+    about: Read-only copies synced from GitHub (open and completed)
