@@ -77,8 +77,6 @@ fn spawn_command_handler(state: ShellState) -> JoinHandle<ShellErrorResault<()>>
                     .await?;
                 stdout.flush().await?;
             }
-            stdout.write_all(b"\n").await?;
-            stdout.flush().await?;
         }
 
         Ok(())
@@ -93,5 +91,5 @@ async fn main() -> Result<(), ShellErrors> {
     if let Ok(Err(e)) = command_handler.await {
         eprintln!("{}", ShellErrors::CommandNotFound(e.to_string()));
     }
-    unreachable!("Main, This code should not be reached, as it comes after the REPL loop");
+    Ok(())
 }

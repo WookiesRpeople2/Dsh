@@ -1,3 +1,5 @@
+use readline::HistoryNavigation;
+
 #[derive(Debug, Clone, Default)]
 pub struct History {
     pub entries: Vec<String>,
@@ -37,5 +39,15 @@ impl History {
             self.index = Some(i + 1);
             Some(&self.entries[i + 1])
         }
+    }
+}
+
+impl HistoryNavigation for History {
+    fn previous(&mut self, current: &str) -> Option<String> {
+        self.up(current).map(str::to_owned)
+    }
+
+    fn next(&mut self) -> Option<String> {
+        self.down().map(str::to_owned)
     }
 }

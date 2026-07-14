@@ -7,4 +7,4 @@ edition = "2024"
 engine = {path="../engine"}
 helpers = {path="../helpers"}
 constants = {path="../constants"}
-crossterm = "0.29.0"
+readline = {path="../readline"}
