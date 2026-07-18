@@ -12,6 +12,12 @@ pub struct ShellState {
     pub history: History,
 }
 
+impl Default for ShellState {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ShellState {
     pub fn new() -> Self {
         let config = read_config();

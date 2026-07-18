@@ -17,6 +17,5 @@ commands = {path="../commands"}
 constants = {path="../constants"}
 helpers = {path="../helpers"}
 futures = "0.3.32"
-crossterm = "0.29.0"
 
 

@@ -1,3 +1,5 @@
+use readline::HistoryNavigation;
+
 #[derive(Debug, Clone, Default)]
 pub struct History {
     pub entries: Vec<String>,
@@ -7,6 +9,7 @@ pub struct History {
 
 impl History {
     pub fn push(&mut self, line: &str) {
+        let line = line.trim_end_matches(['\r', '\n']);
         if !line.trim().is_empty() {
             self.entries.push(line.to_string());
         }
@@ -19,7 +22,7 @@ impl History {
             return None;
         }
         if self.index.is_none() {
-            self.pending = current.to_string();
+            self.pending = current.trim_end_matches(['\r', '\n']).to_string();
         }
         let i = self
             .index
@@ -37,5 +40,15 @@ impl History {
             self.index = Some(i + 1);
             Some(&self.entries[i + 1])
         }
+    }
+}
+
+impl HistoryNavigation for History {
+    fn previous(&mut self, current: &str) -> Option<String> {
+        self.up(current).map(str::to_owned)
+    }
+
+    fn next(&mut self) -> Option<String> {
+        self.down().map(str::to_owned)
     }
 }

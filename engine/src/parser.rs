@@ -96,10 +96,10 @@ impl Parser {
                 Token::HomeSymbol => {
                     self.advance();
                     let mut word = std::env::var("HOME").expect("HOME not set");
-                    if let Token::Command(_) = self.peek() {
-                        if let Token::Command(rest) = self.advance() {
-                            word.push_str(&rest);
-                        }
+                    if let Token::Command(_) = self.peek()
+                        && let Token::Command(rest) = self.advance()
+                    {
+                        word.push_str(&rest);
                     }
                     if program.is_empty() {
                         program = word;

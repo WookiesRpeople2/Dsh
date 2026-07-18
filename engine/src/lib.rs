@@ -29,7 +29,7 @@ macro_rules! define_builtins {
             )*
         }
 
-        use crate::parser::Parser;
+        use $crate::parser::Parser;
 
         impl BuiltinCommand {
             pub fn try_parse(program: &str, args: &[String]) -> Option<CommandType> {

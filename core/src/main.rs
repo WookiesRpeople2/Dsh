@@ -48,8 +48,9 @@ fn spawn_command_handler(state: ShellState) -> JoinHandle<ShellErrorResault<()>>
         let mut stdout = BufWriter::new(stdout);
 
         stdout
-            .write(format!("{}\n", WELCOME_MESSAGE).as_bytes())
-            .await?;
+            .write_all(format!("{}\n", WELCOME_MESSAGE).as_bytes())
+            .await
+            .with_context(|| "failed to write welcome message")?;
         stdout.flush().await?;
 
         loop {
@@ -71,12 +72,16 @@ fn spawn_command_handler(state: ShellState) -> JoinHandle<ShellErrorResault<()>>
             let mut parser = Parser::new(tokens);
             let shell = parser.parse();
             let mut state = state_clone.lock().await;
-            if execute(shell, &mut *state).await.is_err() {
+            if execute(shell, &mut state).await.is_err() {
                 stdout
-                    .write(format!("{}\n", ShellErrors::CommandNotFound(line.clone())).as_bytes())
-                    .await?;
+                    .write_all(
+                        format!("{}\n", ShellErrors::CommandNotFound(line.clone())).as_bytes(),
+                    )
+                    .await
+                    .with_context(|| "failed to write command not found error")?;
                 stdout.flush().await?;
             }
+
             stdout.write_all(b"\n").await?;
             stdout.flush().await?;
         }

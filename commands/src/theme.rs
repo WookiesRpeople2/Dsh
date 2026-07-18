@@ -1,19 +1,16 @@
-use constants::{COLORS, PROMPT_SECTION, PROMPT_SECTION_PROMPT_COLOR_KEY};
+use constants::{PROMPT_SECTION, PROMPT_SECTION_PROMPT_COLOR_KEY};
 use engine::state::ShellState;
-use helpers::{
-    io::write_config,
-    menu::{MenuItem, show_menu},
-};
+use helpers::io::write_config;
+use readline::{MenuItem, MenuStyle, NAMED_COLORS, show_menu_with};
 
 pub fn color(state: &mut ShellState) {
-    let items: Vec<MenuItem> = COLORS
+    let items: Vec<MenuItem<&str>> = NAMED_COLORS
         .iter()
-        .map(|(name, c)| MenuItem::colored(*name, *c))
+        .map(|(name, color)| MenuItem::new(*name, *name).color(*color))
         .collect();
 
-    match show_menu(&items) {
-        Some(i) => {
-            let (name, _ctcolor) = COLORS[i];
+    match show_menu_with(&items, &MenuStyle::titled("Prompt color")) {
+        Some(name) => {
             println!("Color set to {name}");
             write_config(
                 PROMPT_SECTION.to_string(),
@@ -22,7 +19,6 @@ pub fn color(state: &mut ShellState) {
             );
 
             state.prompt_color = name.to_string();
-            assert!(state.prompt_color == name.to_string());
         }
         None => println!("Cancelled, no color selected."),
     }
