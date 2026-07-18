@@ -1,3 +1,6 @@
+use std::collections::HashMap;
+use std::sync::LazyLock;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Color {
     Black,
@@ -10,32 +13,39 @@ pub enum Color {
     White,
 }
 
+static BY_NAME: LazyLock<HashMap<&'static str, Color>> = LazyLock::new(|| {
+    HashMap::from([
+        ("Black", Color::Black),
+        ("Red", Color::Red),
+        ("Green", Color::Green),
+        ("Yellow", Color::Yellow),
+        ("Blue", Color::Blue),
+        ("Magenta", Color::Magenta),
+        ("Cyan", Color::Cyan),
+        ("White", Color::White),
+    ])
+});
+
+static ANSI_FG: LazyLock<HashMap<Color, u8>> = LazyLock::new(|| {
+    HashMap::from([
+        (Color::Black, 30),
+        (Color::Red, 31),
+        (Color::Green, 32),
+        (Color::Yellow, 33),
+        (Color::Blue, 34),
+        (Color::Magenta, 35),
+        (Color::Cyan, 36),
+        (Color::White, 37),
+    ])
+});
+
 impl Color {
     pub fn from_name(name: &str) -> Option<Self> {
-        match name {
-            "Red" => Some(Self::Red),
-            "Green" => Some(Self::Green),
-            "Yellow" => Some(Self::Yellow),
-            "Blue" => Some(Self::Blue),
-            "Magenta" => Some(Self::Magenta),
-            "Cyan" => Some(Self::Cyan),
-            "White" => Some(Self::White),
-            "Black" => Some(Self::Black),
-            _ => None,
-        }
+        BY_NAME.get(name).copied()
     }
 
     pub fn ansi_fg(self) -> u8 {
-        match self {
-            Self::Black => 30,
-            Self::Red => 31,
-            Self::Green => 32,
-            Self::Yellow => 33,
-            Self::Blue => 34,
-            Self::Magenta => 35,
-            Self::Cyan => 36,
-            Self::White => 37,
-        }
+        ANSI_FG.get(&self).copied().unwrap_or(37)
     }
 }
 

@@ -3,6 +3,9 @@ use std::fmt;
 use crate::color::Color;
 
 pub const RESET: &str = "\x1b[0m";
+pub const BOLD: &str = "\x1b[1m";
+pub const DIM: &str = "\x1b[2m";
+pub const REVERSE: &str = "\x1b[7m";
 
 pub struct Styled<'a> {
     pub text: &'a str,
@@ -21,10 +24,4 @@ pub fn styled(text: impl AsRef<str>, color: Color) -> String {
         color,
     }
     .to_string()
-}
-
-impl Styled<'_> {
-    fn to_string(self) -> String {
-        format!("{self}")
-    }
 }

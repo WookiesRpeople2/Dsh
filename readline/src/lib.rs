@@ -8,6 +8,6 @@ mod terminal;
 pub use color::{Color, NAMED_COLORS};
 pub use editor::{Editor, EditorAction, EditorConfig, EditorResult, HistoryNavigation};
 pub use key::{KeyCode, KeyEvent, Modifiers, read_key};
-pub use menu::{MenuItem, show_menu};
+pub use menu::{MenuItem, MenuStyle, show_menu, show_menu_with};
 pub use style::{Styled, styled};
 pub use terminal::RawMode;

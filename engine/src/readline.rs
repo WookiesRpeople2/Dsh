@@ -2,7 +2,6 @@ use readline::{Color, Editor, EditorConfig, EditorResult};
 
 use crate::state::ShellState;
 
-/// Read one line of input with prompt, history, and basic editing.
 pub fn read_line(state: &mut ShellState) -> Option<String> {
     let prompt_color = Color::from_name(&state.prompt_color).unwrap_or(Color::White);
     let config = EditorConfig::new(state.prompt.clone(), prompt_color);

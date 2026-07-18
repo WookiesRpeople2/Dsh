@@ -9,6 +9,7 @@ pub struct History {
 
 impl History {
     pub fn push(&mut self, line: &str) {
+        let line = line.trim_end_matches(['\r', '\n']);
         if !line.trim().is_empty() {
             self.entries.push(line.to_string());
         }
@@ -21,7 +22,7 @@ impl History {
             return None;
         }
         if self.index.is_none() {
-            self.pending = current.to_string();
+            self.pending = current.trim_end_matches(['\r', '\n']).to_string();
         }
         let i = self
             .index
