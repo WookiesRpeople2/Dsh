@@ -1,7 +1,8 @@
+pub mod loc;
 pub mod theme;
 use engine::{ast::BuiltinCommand, state::ShellState};
 
-use crate::theme::color;
+use crate::{loc::loc, theme::color};
 
 pub fn execute_builtin(command: BuiltinCommand, state: &mut ShellState) -> Result<(), String> {
     match command {
@@ -17,6 +18,7 @@ pub fn execute_builtin(command: BuiltinCommand, state: &mut ShellState) -> Resul
 
         BuiltinCommand::Exit => std::process::exit(0),
         BuiltinCommand::Theme => color(state),
+        BuiltinCommand::Loc { path } => loc(path),
     }
 
     Ok(())
