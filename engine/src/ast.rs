@@ -26,6 +26,7 @@ define_builtins! {
     "cd"     => Cd     { path = "~" },
     "alias"  => Alias  { name, command },
     "export" => Export { key, value },
+    "loc"    => Loc { path },
     "theme"  => Theme,
     "exit"   => Exit,
 }
